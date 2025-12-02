@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot Notification Client</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 20px auto; }
+        .auth-container { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 20px;}
+        .message-container { display: flex; justify-content: space-between; gap: 20px; }
+        .auth-box, .message-box { flex: 1; border: 1px solid #ddd; padding: 15px; border-radius: 5px; }
+        #log { border: 1px solid #ccc; padding: 10px; min-height: 200px; overflow-y: scroll; margin-top: 15px; background: #f9f9f9; }
+        .notification { background: #e0f7fa; border-left: 5px solid #00bcd4; padding: 10px; margin-bottom: 5px; }
+        .private-notification { background: #ffe0b2; border-left: 5px solid #ff9800; padding: 10px; margin-bottom: 5px; }
+        input, button, textarea { padding: 8px; margin: 5px 0; width: 100%; box-sizing: border-box; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<h1>🔐 Spring Boot Auth & WebSocket Client</h1>
+
+<div class="auth-container">
+    <div class="auth-box">
+        <h2>1a. Login</h2>
+        <input type="text" id="login-username" value="user" placeholder="Username">
+        <input type="password" id="login-password" value="password" placeholder="Password">
+        <button id="loginButton" onclick="handleLogin()">Login & Get Session</button>
+    </div>
+
+    <div class="auth-box">
+        <h2>1b. Register</h2>
+        <input type="text" id="register-username" placeholder="New Username">
+        <input type="password" id="register-password" placeholder="New Password">
+        <button id="registerButton" onclick="handleRegister()">Register New User</button>
+    </div>
+</div>
+
+<hr>
+
+<h2>2. Real-time Communication</h2>
+<button id="connectButton" onclick="connectAndSubscribe()" disabled>Connect & Subscribe</button>
+<button id="disconnectButton" onclick="disconnect()" disabled>Disconnect</button>
+
+<div class="message-container">
+    <div class="message-box">
+        <h3>2a. Broadcast Message (Requires Auth)</h3>
+        <textarea id="broadcast-content" rows="3" placeholder="Enter content for global broadcast..."></textarea>
+        <button id="broadcastButton" onclick="handleBroadcast()" disabled>Send Global Message</button>
+    </div>
+
+    <div class="message-box">
+        <h3>2b. Send Private Message (Requires Auth)</h3>
+        <input type="text" id="private-target" placeholder="Target Username (e.g., admin)">
+        <input type="text" id="private-title" placeholder="Private Message Title">
+        <textarea id="private-content" rows="3" placeholder="Enter private message content..."></textarea>
+        <button id="privateButton" onclick="handlePrivateSend()" disabled>Send Private Message</button>
+    </div>
+</div>
+
+<hr>
+
+<h2>🔔 Notifications Log</h2>
+<div id="log">Awaiting connection...</div>
+
+<script src="client.js"></script>
+
+</body>
+</html>
